@@ -19,7 +19,7 @@ const ACTIVITIES: {
   },
   youtube: {
     id: "755600276941176913",
-    name: "YouTube Together",
+    name: "YouTube",
   },
   fishing: {
     id: "814288819477020702",
@@ -32,23 +32,19 @@ slash.commands.all().then((e) => {
   if (e.size !== 2) {
     slash.commands.bulkEdit([
       {
-        name: "invite",
-        description: "Invite me to your server.",
-      },
-      {
-        name: "activity",
-        description: "Start an Activity in a Voice Channel.",
+        name: "atividade",
+        description: "Começa uma atividade em um canal de voz.",
         options: [
           {
-            name: "channel",
+            name: "canal",
             type: slash.SlashCommandOptionType.CHANNEL,
-            description: "Voice Channel to start activity in.",
+            description: "Canal de voz que a atividade vai começar.",
             required: true,
           },
           {
-            name: "activity",
+            name: "atividade",
             type: slash.SlashCommandOptionType.STRING,
-            description: "Activity to start.",
+            description: "Qual atividade começar.",
             required: true,
             choices: Object.entries(ACTIVITIES).map((e) => ({
               name: e[1].name,
@@ -66,10 +62,10 @@ slash.handle("activity", (d) => {
   const channel = d.option<slash.InteractionChannel>("channel");
   const activity = ACTIVITIES[d.option<string>("activity")];
   if (!channel || !activity) {
-    return d.reply("Invalid interaction.", { ephemeral: true });
+    return d.reply("Interação invalida, cheque minhas permissões.", { ephemeral: true });
   }
   if (channel.type !== slash.ChannelTypes.GUILD_VOICE) {
-    return d.reply("Activities can only be started in Voice Channels.", {
+    return d.reply("Atividades podem ser iniciadas apenas em um canal de voz.", {
       ephemeral: true,
     });
   }
@@ -88,19 +84,11 @@ slash.handle("activity", (d) => {
       );
     })
     .catch((e) => {
-      console.log("Failed", e);
-      d.reply("Failed to start Activity.", { ephemeral: true });
+      console.log("Falhou", e);
+      d.reply("Atividade Falhou.", { ephemeral: true });
     });
 });
 
-slash.handle("invite", (d) => {
-  d.reply(
-    `• [Click here to invite.](<https://discord.com/api/oauth2/authorize?client_id=819835984388030464&permissions=1&scope=applications.commands%20bot>)\n` +
-      `• [Check out Source Code.](<https://github.com/DjDeveloperr/ActivitiesBot>)\n` +
-      `• [Join our Discord.](<https://discord.gg/WVN2JF2FRv>)`,
-    { ephemeral: true }
-  );
-});
 
-slash.handle("*", (d) => d.reply("Unhandled Command", { ephemeral: true }));
-slash.client.on("interactionError", console.log);
+slash.handle("*", (d) => d.reply("Erro.", { ephemeral: true }));
+slash.client.on("Erro de interação", console.log);
