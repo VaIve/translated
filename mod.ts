@@ -80,7 +80,7 @@ slash.handle("activity", (d) => {
     })
     .then((inv) => {
       d.reply(
-        `[Click here to start ${activity.name} in ${channel.name}.](<https://discord.gg/${inv.code}>)`
+        `[Clique aqui para começar ${activity.name} no canal ${channel.name}.](<https://discord.gg/${inv.code}>)`
       );
     })
     .catch((e) => {
